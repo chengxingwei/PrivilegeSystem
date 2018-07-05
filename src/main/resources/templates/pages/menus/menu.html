@@ -1,0 +1,116 @@
+<link rel="stylesheet" th:href="@{/plugins/datatables/dataTables.bootstrap4.css}">
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>菜单列表</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a th:href="@{/main}">首页</a></li>
+                    <li class="breadcrumb-item active">菜单列表</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="text" id="menuName"  class="form-control"placeholder="请输入菜单名" />
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-info" onclick="search()">查找</button>
+                            <button class="btn btn-info" onclick="Add()" >添加</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0" style="margin-top: 10px;">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>菜单名称</th>
+                            <th>菜单地址</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- DataTables -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.js}"}></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap4.js}"></script>
+
+<script th:inline="javascript">
+    var contextPath = /*[[@{/}]]*/;
+    var table = $('#example1').DataTable({
+        "paging": true,
+        "serverSide": true,//是否启用数据库加载
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "bLengthChange":true,
+        "aLengthMenu" : [10, 20, 30], //更改显示记录数选项
+        "bPaginate" : true,
+        "aoColumns": [
+            { "mData": "name", "aTargets": [ 0 ],"render": function (val, type, data, callback) {
+                    if (data.url_type == 1){
+                        return val;
+                    }else{
+                        return "&nbsp;&nbsp;&nbsp;"+val;
+                    }
+                }
+            },
+            { "mData": "url", "aTargets": [ 1 ] }
+        ],
+        "oLanguage": { //国际化配置
+            "sProcessing": "正在获取数据，请稍后...",
+            "sLengthMenu": "显示 _MENU_ 条",
+            "sZeroRecords": "没有您要搜索的内容",
+            "sInfo": "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+            "sInfoEmpty": "记录数为0",
+            "sInfoFiltered": "(全部记录数 _MAX_ 条)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "第一页",
+                "sPrevious": "上一页",
+                "sNext": "下一页",
+                "sLast": "最后一页"
+            }
+        },
+        ajax: {
+            url: contextPath+'menu/findMapByPage',
+            data: function ( d ) {
+                d.name = $("#menuName").val();
+            }
+        }
+
+    });
+    function search() {
+        table.ajax.reload();
+    }
+    function Add() {
+        $("#content").load(contextPath+'menu/add');
+    }
+</script>

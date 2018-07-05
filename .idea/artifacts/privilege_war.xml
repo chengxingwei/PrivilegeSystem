@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="privilege:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="privilege-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="privilege:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -29,11 +29,8 @@ public class HomeController {
 
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public ModelAndView test(){
+    public ModelAndView test() {
         ModelAndView view = new ModelAndView("abcd");
-        return  view;
+        return view;
     }
-
-
-
 }

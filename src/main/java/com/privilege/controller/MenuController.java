@@ -38,7 +38,7 @@ public class MenuController  {
     @ResponseBody
     @RequestMapping(value = "/findMapByPage",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     public Map<String,Object> findMapByPage(UPermission permission, Integer start, Integer length, Integer draws){
-        Map<String,Object> result = new HashMap<>();
+        Map<String,Object> result = new HashMap<String,Object>();
         System.out.println("menuName:"+permission.getName());
         try {
             Integer pageNum = (start+1)/length+1;
